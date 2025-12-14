@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quizzes</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+        h1 { text-align: center; }
+        .quiz { margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 5px; }
+        a { text-decoration: none; color: white; background-color: #007BFF; padding: 5px 10px; border-radius: 3px; }
+        a:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Available Quizzes</h1>
+
+    {% for quiz in quizzes %}
+        <div class="quiz">
+            <h2>{{ quiz.title }}</h2>
+            <p>{{ quiz.description }}</p>
+            <a href="{% url 'quiz_detail' quiz.id %}">Start Quiz</a>
+        </div>
+    {% empty %}
+        <p>No quizzes available.</p>
+    {% endfor %}
+</body>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ quiz.title }} - Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+        h1 { text-align: center; margin-bottom: 20px; }
+        .score { font-size: 1.5em; margin-bottom: 30px; text-align: center; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .correct { color: green; font-weight: bold; }
+        .wrong { color: red; font-weight: bold; }
+        a { display: inline-block; margin-top: 20px; text-decoration: none; color: white; background-color: #007BFF; padding: 10px 15px; border-radius: 5px; }
+        a:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>{{ quiz.title }} - Quiz Results</h1>
+
+    <div class="score">
+        You scored {{ score }} ({{ correct_answers }} out of {{ total_questions }} correct)
+    </div>
+
+    <h2>Your Answers</h2>
+    <ul>
+        {% for ua in user_answers %}
+            <li>
+                <strong>Q{{ forloop.counter }}: {{ ua.question.text }}</strong><br>
+                Your answer: {{ ua.answer.text }}
+                {% if ua.answer.is_correct %}
+                    <span class="correct">(Correct)</span>
+                {% else %}
+                    <span class="wrong">(Wrong)</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'quiz_list' %}">Back to Quizzes</a>
+</body>
+</html>

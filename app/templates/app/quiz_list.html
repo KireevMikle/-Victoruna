@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/theme.css' %}">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,18 +9,30 @@
         body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
         h1 { text-align: center; }
         .quiz { margin-bottom: 20px; border: 1px solid #ccc; padding: 15px; border-radius: 5px; }
-        a { text-decoration: none; color: white; background-color: #007BFF; padding: 5px 10px; border-radius: 3px; }
-        a:hover { background-color: #0056b3; }
+        a { text-decoration: none; color: white; background-color: #ddba77; padding: 5px 10px; border-radius: 3px; }
     </style>
 </head>
 <body>
+    {% if user.is_authenticated %}
+        <p>
+            Logged in as {{ user.username }}
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        </p>
+    {% else %}
+        <a href="{% url 'login' %}">Login</a> |
+        <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+    
     <h1>Available Quizzes</h1>
 
     {% for quiz in quizzes %}
         <div class="quiz">
             <h2>{{ quiz.title }}</h2>
             <p>{{ quiz.description }}</p>
-            <a href="{% url 'quiz_detail' quiz.id %}">Start Quiz</a>
+            <a href="{% url 'quiz_detail' quiz.id %}">Почати Quiz</a>
         </div>
     {% empty %}
         <p>No quizzes available.</p>

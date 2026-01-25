@@ -1,0 +1,88 @@
+:root {
+    --red: #f25e62;
+    --sand: #ddba77;
+    --dark: #586f67;
+    --green: #a4ff52;
+    --bg: #f9f9f9;
+    --radius: 10px;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--dark);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 850px;
+    margin: auto;
+    padding: 25px;
+}
+
+.card {
+    background: #f25e62;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+answer {
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.answer:hover {
+    border-color: var(--sand);
+}
+
+.answer input {
+    margin-right: 10px;
+}
+
+.correct {
+    background-color: var(--green);
+    color: black;
+    font-weight: bold;
+}
+
+.wrong {
+    background-color: var(--red);
+    color: white;
+    font-weight: bold;
+}
+
+.skipped {
+    background-color: var(--sand);
+    color: black;
+}
+
+.btn {
+    padding: 14px 28px;
+    font-size: 16px;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background-color: var(--dark);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #475d56;
+}
+
+.btn-success {
+    background-color: var(--green);
+    color: black;
+}

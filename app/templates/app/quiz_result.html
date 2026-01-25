@@ -9,34 +9,80 @@
         .score { font-size: 1.5em; margin-bottom: 30px; text-align: center; }
         ul { list-style-type: none; padding: 0; }
         li { margin-bottom: 15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        .correct { color: green; font-weight: bold; }
-        .wrong { color: red; font-weight: bold; }
-        a { display: inline-block; margin-top: 20px; text-decoration: none; color: white; background-color: #007BFF; padding: 10px 15px; border-radius: 5px; }
-        a:hover { background-color: #0056b3; }
+        .correct { color: #586f67; font-weight: bold; font-weight: bold; background-color: #a4ff52}
+        .wrong { color: white; font-weight: bold; font-weight: bold; background-color: #f25e62}
+        .skipped { color: #586f67; font-weight: bold; font-weight: bold; background-color: #ddba77}
     </style>
 </head>
+<div style="text-align: center; margin-top: 40px;">
+    <a href="{% url 'quiz_list' %}"
+       style="
+           display: inline-block;
+           padding: 12px 25px;
+           font-size: 16px;
+           text-decoration: none;
+           color: white;
+           background-color: #ddba77;
+           border-radius: 6px;
+       ">
+        Back to Quizzes
+    </a>
+</div>
 <body>
-    <h1>{{ quiz.title }} - Quiz Results</h1>
 
-    <div class="score">
-        You scored {{ score }} ({{ correct_answers }} out of {{ total_questions }} correct)
-    </div>
+<h1>{{ quiz.title }} - Quiz Results</h1>
 
-    <h2>Your Answers</h2>
-    <ul>
-        {% for ua in user_answers %}
-            <li>
-                <strong>Q{{ forloop.counter }}: {{ ua.question.text }}</strong><br>
-                Your answer: {{ ua.answer.text }}
-                {% if ua.answer.is_correct %}
-                    <span class="correct">(Correct)</span>
-                {% else %}
-                    <span class="wrong">(Wrong)</span>
+<div class="score">
+    You scored {{ score }} ({{ correct_answers }} out of {{ total_questions }} correct)
+</div>
+
+<ul>
+{% for question in quiz.questions.all %}
+    <li>
+        <strong>Q{{ forloop.counter }}: {{ question.text }}</strong><br><br>
+
+        {% if user_answers.question.id %}
+        {% endif %}
+
+        {% if question.id in user_answers %}
+            {% for qid, ua in user_answers.items %}
+                {% if qid == question.id %}
+                    Your answer: {{ ua.answer.text }}
+                    {% if ua.answer.is_correct %}
+                        <span class="correct">(Correct)</span>
+                    {% else %}
+                        <span class="wrong">(Wrong)</span>
+                    {% endif %}
                 {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        {% else %}
+            <span class="skipped">You skipped this question.</span>
+        {% endif %}
 
-    <a href="{% url 'quiz_list' %}">Back to Quizzes</a>
+        <br><br>
+        <strong>Correct answer:</strong>
+        <ul>
+            {% for answer in question.answers.all %}
+                {% if answer.is_correct %}
+                    <li>{{ answer.text }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </li>
+{% endfor %}
+</ul>
+<h2>Last 10 Attempts</h2>
+
+<ul>
+{% for attempt in recent_attempts %}
+    <li>
+        {{ attempt.created_at|date:"Y-m-d H:i" }} —
+        {{ attempt.score }} / {{ attempt.total }}
+    </li>
+{% empty %}
+    <li>No attempts yet.</li>
+{% endfor %}
+</ul>
+
 </body>
 </html>

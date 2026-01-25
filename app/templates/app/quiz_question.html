@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/theme.css' %}">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ quiz.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .question-box {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        .answers label {
+            display: block;
+            padding: 8px;
+            cursor: pointer;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>{{ quiz.title }}</h1>
+<p style="text-align:center;">
+    Question {{ question_number }} of {{ total_questions }}
+</p>
+
+<div class="question-box">
+
+    <h3>{{ question.text }}</h3>
+
+    {% if question.image %}
+        <img src="{{ question.image.url }}" style="max-width:300px;">
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="answers">
+            {% for answer in question.answers.all %}
+                <label>
+                    <input type="radio"
+                           name="answer"
+                           value="{{ answer.id }}"
+                           {% if user_answer and user_answer.answer.id == answer.id %}checked{% endif %}
+                    >
+                    {{ answer.text }}
+                </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit">
+            {% if question_number == total_questions %}
+                Finish
+            {% else %}
+                Next
+            {% endif %}
+        </button>
+    </form>
+
+</div>
+
+</body>
+</html>

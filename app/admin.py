@@ -3,7 +3,7 @@ from .models import Quiz, Question, Answer
 
 class AnswerInline(admin.TabularInline):
     model = Answer
-    extra = 2  # Number of answer fields shown by default
+    extra = 2  
 
 class QuestionInline(admin.TabularInline):
     model = Question
